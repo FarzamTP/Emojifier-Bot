@@ -4,6 +4,7 @@ from telepot.loop import MessageLoop
 import requests
 import emoji
 from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup
+from datetime import datetime
 
 token = "1171061388:AAFxZjpuP_3R9iQNZnnN6s74O5ottQcItFs"
 
@@ -21,14 +22,16 @@ def handle(msg):
                                      "and also punctioation marks...\nPlease don't use them...\n")
             bot.sendMessage(chat_id, "Now, Tell what you think...")
         else:
+            t1 = datetime.now()
+
             bot.sendMessage(chat_id, "Processing your text...")
             r = requests.post(url='https://faazi.ir/api/ask', data={'text': text})
             emoji_unicode = r.json().get('emoji')
             prob = float(r.json().get('prob'))
             keyboard = like_dislike_keyboard()
-            bot.sendMessage(chat_id, emoji.emojize(text + " %s with probability %.3f" % (emoji_unicode, prob),
-                                                   use_aliases=True), reply_markup=keyboard)
 
+            spent_time = (datetime.now() - t1).total_seconds()
+            bot.sendMessage(chat_id, emoji.emojize("Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
     return
 
 
@@ -44,8 +47,8 @@ def on_callback_query(msg):
         bot.sendMessage(chat_id, emoji.emojize("Yeah :tada: Thanks for your support. :smile:", use_aliases=True))
         bot.sendMessage(chat_id, "Tell me more...")
     elif str(query_data) == "dislike":
-        bot.sendMessage(chat_id, "Sorry that I couldn't understand you :sad:\nI'll grow better with help of nice guys "
-                                 "like you :heart_eyes:")
+        bot.sendMessage(chat_id, emoji.emojize("Sorry that I couldn't understand you :pensive:\nI'll grow better with "
+                                               "help of nice guys like you :heart_eyes:", use_aliases=True))
         bot.sendMessage(chat_id, "Tell me more...")
 
 

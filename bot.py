@@ -24,7 +24,8 @@ def handle(msg):
             r = requests.post(url='https://faazi.ir/api/ask', data={'text': text})
             emoji_unicode = r.json().get('emoji')
             prob = float(r.json().get('prob'))
-            bot.sendMessage(chat_id, emoji.emojize(text + " %s with probability %.3f" % (emoji_unicode, prob)))
+            bot.sendMessage(chat_id, emoji.emojize(text + " %s with probability %.3f" % (emoji_unicode, prob),
+                                                   use_aliases=True))
     return
 
 

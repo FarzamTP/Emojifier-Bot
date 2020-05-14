@@ -3,11 +3,13 @@ import telepot
 from telepot.loop import MessageLoop
 import requests
 import emoji
+import string
 from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup
 from datetime import datetime
-me = "XXXXXXX"
 
-token = "XXXXXXX---XXXXXXX"
+me = 313030525
+mutex = False
+token = "1171061388:AAFxZjpuP_3R9iQNZnnN6s74O5ottQcItFs"
 
 bot = telepot.Bot(token)
 
@@ -16,35 +18,64 @@ def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     if content_type == 'text':
         text = msg["text"]
-        inform_me("User %s sent: %s" % (str(chat_id), str(text)))
-        if text == '/start':
-            bot.sendMessage(chat_id, "Hello!\nI am Emojizer, a newly born sense detector robot!\nI am in my primary "
-                                     "stages of learning, so it may take a little time for me to respond...\nAs a "
-                                     "child, I can not memorize long sentences (more than 10 words), complex words "
-                                     "and also punctioation marks...\nPlease don't use them...\n")
-            bot.sendMessage(chat_id, "Now, Tell what you think...")
+        if not contains_punc(text):
+            if less_than_ten_words(text):
+                global mutex
+                if not mutex:
+                    mutex = True
+                    inform_me("User %s sent: %s" % (str(chat_id), str(text)))
+                    if text == '/start':
+                        bot.sendMessage(chat_id,
+                                        "Hello!\nI am Emojizer, a newly born sense detector robot!\nI am in my primary "
+                                        "stages of learning, so it may take a little time for me to respond...\nAs a "
+                                        "child, I can not memorize long sentences (more than 10 words), complex words "
+                                        "and also punctioation marks...\nPlease don't use them...\n")
+                        bot.sendMessage(chat_id, "Now, Tell what you think...")
+                    else:
+                        t1 = datetime.now()
+
+                        bot.sendMessage(chat_id, "Processing your text...")
+                        r = requests.post(url='https://faazi.ir/api/ask', data={'text': text})
+                        emoji_unicode = r.json().get('emoji')
+                        prob = float(r.json().get('prob'))
+                        keyboard = like_dislike_keyboard()
+
+                        spent_time = (datetime.now() - t1).total_seconds()
+                        bot.sendMessage(chat_id, emoji.emojize(
+                            "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
+                                emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
+
+                        bot.sendMessage(me, emoji.emojize(
+                            "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
+                                emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
+                else:
+                    bot.sendMessage(chat_id, "I'm processing right now.. \nPlease try again in a few minutes.")
+            else:
+                bot.sendMessage(chat_id, "Please enter shorter sentence...\nless than 10 words...")
         else:
-            t1 = datetime.now()
-
-            bot.sendMessage(chat_id, "Processing your text...")
-            r = requests.post(url='https://faazi.ir/api/ask', data={'text': text})
-            emoji_unicode = r.json().get('emoji')
-            prob = float(r.json().get('prob'))
-            keyboard = like_dislike_keyboard()
-
-            spent_time = (datetime.now() - t1).total_seconds()
-            bot.sendMessage(chat_id, emoji.emojize(
-                "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
-                    emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
-
-            bot.sendMessage(me, emoji.emojize(
-                "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
-                    emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
+            bot.sendMessage(chat_id, "Please don't enter punctuation marks...")
+            bot.sendMessage(chat_id, "Now, Tell what you think...")
     return
 
 
 def inform_me(text):
     bot.sendMessage(me, text)
+
+
+def less_than_ten_words(text):
+    if len(str(text).split(" ")) < 10:
+        return True
+    else:
+        return False
+
+
+def contains_punc(text):
+    flag = False
+    for p in string.punctuation:
+        if p in text:
+            flag = True
+            break
+    return flag
 
 
 def on_callback_query(msg):
@@ -64,7 +95,7 @@ def on_callback_query(msg):
         bot.sendMessage(chat_id, emoji.emojize("Sorry that I couldn't understand you :pensive:\nI'll grow better with "
                                                "help of nice guys like you :heart_eyes:", use_aliases=True))
         bot.sendMessage(me, emoji.emojize("Sorry that I couldn't understand you :pensive:\nI'll grow better with "
-                                               "help of nice guys like you :heart_eyes:", use_aliases=True))
+                                          "help of nice guys like you :heart_eyes:", use_aliases=True))
         bot.sendMessage(chat_id, "Tell me more...")
 
 

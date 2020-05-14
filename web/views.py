@@ -54,7 +54,7 @@ def classify(request):
     model = load_model(model_path)
     text = request.POST.get('text')
     X_train_indices = sentences_to_indices(np.asarray([str(text)]), word_to_index, 50)
-    pred = model.predict(X_train_indices)
+    # pred = model.predict(X_train_indices)
     # emoji_idx = np.argmax(pred[0])
     # print("Emoji idx:", emoji_idx)
     # prob = pred[0][emoji_idx]
@@ -78,4 +78,4 @@ def classify(request):
     # return JsonResponse(data={'emoji': emoji,
     #                           'prob': prob})
     return JsonResponse(data={'status': X_train_indices,
-                              'model': pred})
+                              'model': str(model)})

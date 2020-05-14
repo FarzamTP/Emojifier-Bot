@@ -57,27 +57,25 @@ def classify(request):
     print("X_train_indices:", X_train_indices)
     pred = model.predict(X_train_indices)
     print("Pred:", pred)
-    # emoji_idx = np.argmax(pred[0])
-    # print("Emoji idx:", emoji_idx)
-    # prob = pred[0][emoji_idx]
-    # print("Prob:", prob)
-    #
-    # sentence = Sentence(text=text, prob=prob)
-    #
-    # if emoji_idx == 0:
-    #     emoji = ':heart:'
-    # elif emoji_idx == 1:
-    #     emoji = ":baseball:"
-    # elif emoji_idx == 2:
-    #     emoji = ":smile:"
-    # elif emoji_idx == 3:
-    #     emoji = ":disappointed:"
-    # else:
-    #     emoji = ":fork_and_knife:"
-    # sentence.emoji = emoji
-    # sentence.save()
-    # print("Emoji:", emoji)
-    # return JsonResponse(data={'emoji': emoji,
-    #                           'prob': prob})
-    return JsonResponse(data={'status': str(pred),
-                              'model': str(model)})
+    emoji_idx = np.argmax(pred[0])
+    print("Emoji idx:", emoji_idx)
+    prob = pred[0][emoji_idx]
+    print("Prob:", prob)
+
+    sentence = Sentence(text=text, prob=prob)
+
+    if emoji_idx == 0:
+        emoji = ':heart:'
+    elif emoji_idx == 1:
+        emoji = ":baseball:"
+    elif emoji_idx == 2:
+        emoji = ":smile:"
+    elif emoji_idx == 3:
+        emoji = ":disappointed:"
+    else:
+        emoji = ":fork_and_knife:"
+    sentence.emoji = emoji
+    sentence.save()
+    print("Emoji:", emoji)
+    return JsonResponse(data={'emoji': str(emoji),
+                              'prob': str(prob)})

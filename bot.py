@@ -10,8 +10,6 @@ bot = telepot.Bot(token)
 
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
-    message_id = msg["message_id"]
-    first_name = msg["from"]["first_name"]
     if content_type == 'text':
         text = msg["text"]
         r = requests.post(url='https://faazi.ir/api/ask', data={'text': text})

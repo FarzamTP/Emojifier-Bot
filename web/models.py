@@ -35,20 +35,3 @@ class Sentence(models.Model):
     )
 
     feedback = models.CharField(blank=True, choices=feedback_choices, default=none, max_length=32)
-
-
-class Model(models.Model):
-    path = models.CharField(default='./model/model.h5')
-
-    def sentences_to_indices(self, X, word_to_index, max_len):
-        m = X.shape[0]
-        X_indices = np.zeros((m, max_len))
-        for i in range(m):
-            sentence_words = [word.lower().replace('\t', '') for word in X[i].split(' ') if
-                              word.replace('\t', '') != '']
-            j = 0
-            for w in sentence_words:
-                X_indices[i, j] = word_to_index[w]
-                j += 1
-        return X_indices
-

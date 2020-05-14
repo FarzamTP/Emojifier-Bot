@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 import numpy as np
+from django.views.decorators.csrf import csrf_exempt
 from keras.models import load_model
 from .models import Sentence
 
@@ -43,9 +44,10 @@ def sentences_to_indices(X, word_to_index, max_len):
     return X_indices
 
 
-word_to_index, index_to_words, word_to_vec_map = read_glove_vecs('../GloVe/glove.6B.50d.txt')
+word_to_index, index_to_words, word_to_vec_map = read_glove_vecs('..    /GloVe/glove.6B.50d.txt')
 
 
+@csrf_exempt
 def classify(request):
     model_path = '../model/model.h5'
 

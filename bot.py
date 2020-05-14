@@ -28,7 +28,6 @@ def handle(msg):
                             "and also punctioation marks...\nPlease don't use them...\n")
             bot.sendMessage(chat_id, "Now, Tell what you think...")
         else:
-            global mutex
             if not mutex:
                 if less_than_ten_words(text):
                     if not contains_punc(text):

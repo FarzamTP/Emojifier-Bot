@@ -52,12 +52,18 @@ def classify(request):
     model_path = '/var/www/EmojifierBot/model/model.h5'
 
     model = load_model(model_path)
-
+    print("Model has been loaded.")
     text = request.POST.get('text')
+    print("Text:", text)
     X_train_indices = sentences_to_indices(np.asarray([str(text)]), word_to_index, 50)
+    print("X_train_indices:", X_train_indices)
     pred = model.predict(X_train_indices)
+    print("Pred:", pred)
     emoji_idx = np.argmax(pred[0])
+    print("Emoji idx:", emoji_idx)
     prob = pred[0][emoji_idx]
+    print("Prob:", prob)
+
     sentence = Sentence(text=text, prob=prob)
 
     if emoji_idx == 0:
@@ -72,5 +78,6 @@ def classify(request):
         emoji = ":fork_and_knife:"
     sentence.emoji = emoji
     sentence.save()
+    print("Emoji:", emoji)
     return JsonResponse(data={'emoji': emoji,
                               'prob': prob})

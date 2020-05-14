@@ -32,15 +32,13 @@ def read_glove_vecs(file_path):
 
 
 def sentences_to_indices(X, word_to_index, max_len):
-    m = X.shape[0]
-    X_indices = np.zeros((m, max_len))
-    for i in range(m):
-        sentence_words = [word.lower().replace('\t', '') for word in X[i].split(' ') if
-                          word.replace('\t', '') != '']
-        j = 0
-        for w in sentence_words:
-            X_indices[i, j] = word_to_index[w]
-            j += 1
+    X_indices = np.zeros((1, max_len))
+    sentence_words = [word.lower().replace('\t', '') for word in X[i].split(' ') if
+                      word.replace('\t', '') != '']
+    j = 0
+    for w in sentence_words:
+        X_indices[1, j] = word_to_index[w]
+        j += 1
     return X_indices
 
 
@@ -53,7 +51,8 @@ def classify(request):
 
     model = load_model(model_path)
     text = request.POST.get('text')
-    X_train_indices = sentences_to_indices(np.asarray([str(text)]), word_to_index, 50)
+    ind = sentences_to_indices(["Hello I am A boy"], word_to_index, 32)
+    # X_train_indices = sentences_to_indices(np.asarray([str(text)]), word_to_index, 50)
     # pred = model.predict(X_train_indices)
     # emoji_idx = np.argmax(pred[0])
     # print("Emoji idx:", emoji_idx)
@@ -77,5 +76,5 @@ def classify(request):
     # print("Emoji:", emoji)
     # return JsonResponse(data={'emoji': emoji,
     #                           'prob': prob})
-    return JsonResponse(data={'status': X_train_indices,
+    return JsonResponse(data={'status': ind,
                               'model': str(model)})

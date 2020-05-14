@@ -15,7 +15,8 @@ def handle(msg):
     if content_type == 'text':
         text = msg["text"]
         r = requests.post(url='http://faazi.ir/api/ask', data={'text': text})
-        print(r)
+        print(r.ok)
+        print(r.status_code)
         print(r.json())
         bot.sendMessage(chat_id, "Hello!")
     return

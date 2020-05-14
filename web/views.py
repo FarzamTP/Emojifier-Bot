@@ -50,9 +50,8 @@ def classify(request):
     model_path = '/var/www/EmojifierBot/model/model.h5'
 
     model = load_model(model_path)
-    text = request.POST.get('text')
-    ind = sentences_to_indices(["Hello I am A boy"], word_to_index, 10)
-    print(ind)
+    # text = request.POST.get('text')
+    text = "Hello I am a boy"
     X_train_indices = sentences_to_indices(np.asarray([str(text)]), word_to_index, 10)
     print("X_train_indices:", X_train_indices)
     pred = model.predict(X_train_indices)

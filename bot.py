@@ -1,6 +1,7 @@
 import time
 import telepot
 from telepot.loop import MessageLoop
+import requests
 
 token = "1171061388:AAFxZjpuP_3R9iQNZnnN6s74O5ottQcItFs"
 
@@ -10,9 +11,12 @@ bot = telepot.Bot(token)
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     message_id = msg["message_id"]
-    text = msg["text"]
     first_name = msg["from"]["first_name"]
     if content_type == 'text':
+        text = msg["text"]
+        r = requests.post(url='http://faazi.ir/api/ask', data={'text': text})
+        print(r)
+        print(r.json())
         bot.sendMessage(chat_id, "Hello!")
     return
 

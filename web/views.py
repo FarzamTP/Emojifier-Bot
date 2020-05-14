@@ -49,7 +49,7 @@ word_to_index, index_to_words, word_to_vec_map = read_glove_vecs('/var/www/Emoji
 
 @csrf_exempt
 def classify(request):
-    model_path = '../model/model.h5'
+    model_path = '/var/www/EmojifierBot/model/model.h5'
 
     model = load_model(model_path)
 

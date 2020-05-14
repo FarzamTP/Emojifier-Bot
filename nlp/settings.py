@@ -25,7 +25,7 @@ SECRET_KEY = 'rz60+kal_t9w_-ii=njtuzqns31wr8y-k=de)7ok7$91sp+gxz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['faazi.ir']
+ALLOWED_HOSTS = ['faazi.ir', 'localhost']
 
 
 # Application definition

@@ -42,7 +42,7 @@ def read_glove_vecs(file_path):
 #     return X_indices
 
 
-word_to_index, index_to_words, word_to_vec_map = read_glove_vecs('/var/www/EmojifierBot/GloVe/glove.6B.50d.txt')
+# word_to_index, index_to_words, word_to_vec_map = read_glove_vecs('/var/www/EmojifierBot/GloVe/glove.6B.50d.txt')
 
 
 @csrf_exempt
@@ -50,9 +50,10 @@ def classify(request):
     model_path = '/var/www/EmojifierBot/model/model.h5'
 
     model = load_model(model_path)
-    text = request.POST.get('text')
+    # text = request.POST.get('text')
 
     X_indices = np.zeros((1, 32))
+    # print(X_indices)
     # sentence_words = [word.lower().replace('\t', '') for word in "Hello I am A boy".split(' ') if
     #                   word.replace('\t', '') != '']
 

@@ -51,9 +51,9 @@ def classify(request):
 
     model = load_model(model_path)
     text = request.POST.get('text')
-    ind = sentences_to_indices(["Hello I am A boy"], word_to_index, 32)
+    ind = sentences_to_indices(["Hello I am A boy"], word_to_index, 10)
     print(ind)
-    X_train_indices = sentences_to_indices(np.asarray([str(text)]), word_to_index, 50)
+    X_train_indices = sentences_to_indices(np.asarray([str(text)]), word_to_index, 10)
     print("X_train_indices:", X_train_indices)
     pred = model.predict(X_train_indices)
     print("Pred:", pred)

@@ -56,10 +56,10 @@ def classify(request):
     sentence_words = [word.lower().replace('\t', '') for word in "Hello I am A boy".split(' ') if
                       word.replace('\t', '') != '']
 
-    j = 0
-    for w in sentence_words:
-        X_indices[1, j] = word_to_index[w]
-        j += 1
+    # j = 0
+    # for w in sentence_words:
+    #     X_indices[1, j] = word_to_index[w]
+    #     j += 1
 
 
     # X_train_indices = sentences_to_indices(np.asarray([str(text)]), word_to_index, 50)

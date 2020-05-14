@@ -18,6 +18,8 @@ def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     if content_type == 'text':
         text = msg["text"]
+        global mutex
+        print(mutex)
         if text == '/start':
             bot.sendMessage(chat_id,
                             "Hello!\nI am Emojizer, a newly born sense detector robot!\nI am in my primary "

@@ -18,19 +18,19 @@ def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     if content_type == 'text':
         text = msg["text"]
-        if not contains_punc(text):
-            if less_than_ten_words(text):
-                global mutex
-                if not mutex:
-                    inform_me("User %s sent: %s" % (str(chat_id), str(text)))
-                    if text == '/start':
-                        bot.sendMessage(chat_id,
-                                        "Hello!\nI am Emojizer, a newly born sense detector robot!\nI am in my primary "
-                                        "stages of learning, so it may take a little time for me to respond...\nAs a "
-                                        "child, I can not memorize long sentences (more than 10 words), complex words "
-                                        "and also punctioation marks...\nPlease don't use them...\n")
-                        bot.sendMessage(chat_id, "Now, Tell what you think...")
-                    else:
+        if text == '/start':
+            bot.sendMessage(chat_id,
+                            "Hello!\nI am Emojizer, a newly born sense detector robot!\nI am in my primary "
+                            "stages of learning, so it may take a little time for me to respond...\nAs a "
+                            "child, I can not memorize long sentences (more than 10 words), complex words "
+                            "and also punctioation marks...\nPlease don't use them...\n")
+            bot.sendMessage(chat_id, "Now, Tell what you think...")
+        else:
+            global mutex
+            if not mutex:
+                if less_than_ten_words(text):
+                    if not contains_punc(text):
+                        inform_me("User %s sent: %s" % (str(chat_id), str(text)))
                         mutex = True
                         t1 = datetime.now()
 
@@ -42,20 +42,20 @@ def handle(msg):
 
                         spent_time = (datetime.now() - t1).total_seconds()
                         bot.sendMessage(chat_id, emoji.emojize(
-                            "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
-                                emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
+                                "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
+                                    emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
 
                         bot.sendMessage(me, emoji.emojize(
-                            "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
-                                emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
+                                "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
+                                    emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
                         mutex = False
+                    else:
+                        bot.sendMessage(chat_id, "Please don't enter punctuation marks...")
+                        bot.sendMessage(chat_id, "Now, Tell what you think...")
                 else:
-                    bot.sendMessage(chat_id, "I'm processing right now.. \nPlease try again in a few minutes.")
+                    bot.sendMessage(chat_id, "Please enter shorter sentence...\nless than 10 words...")
             else:
-                bot.sendMessage(chat_id, "Please enter shorter sentence...\nless than 10 words...")
-        else:
-            bot.sendMessage(chat_id, "Please don't enter punctuation marks...")
-            bot.sendMessage(chat_id, "Now, Tell what you think...")
+                bot.sendMessage(chat_id, "I'm processing right now.. \nPlease try again in a few minutes.")
     return
 
 

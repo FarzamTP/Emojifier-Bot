@@ -57,9 +57,13 @@ def on_callback_query(msg):
 
     if str(query_data) == "like":
         bot.sendMessage(chat_id, emoji.emojize("Yeah :tada: Thanks for your support. :smile:", use_aliases=True))
+        bot.sendMessage(me, emoji.emojize("Yeah :tada: Thanks for your support. :smile:", use_aliases=True))
+
         bot.sendMessage(chat_id, "Tell me more...")
     elif str(query_data) == "dislike":
         bot.sendMessage(chat_id, emoji.emojize("Sorry that I couldn't understand you :pensive:\nI'll grow better with "
+                                               "help of nice guys like you :heart_eyes:", use_aliases=True))
+        bot.sendMessage(me, emoji.emojize("Sorry that I couldn't understand you :pensive:\nI'll grow better with "
                                                "help of nice guys like you :heart_eyes:", use_aliases=True))
         bot.sendMessage(chat_id, "Tell me more...")
 

@@ -25,7 +25,7 @@ def handle(msg):
                             "stages of learning, so it may take a little time for me to respond...\nAs a "
                             "child, I can not memorize long sentences (more than 10 words), complex words "
                             "and also punctuation marks...\nPlease don't use them...\n"
-                            "If I didn't start processing immediately: \n\nPLEASE DO‌ NOT HESITATE!\n"
+                            "If I didn't start processing immediately: \n\tPLEASE DO‌ NOT HESITATE!\n\n"
                             "That's because I'm processing at the moment and will process your sentence in a minute.‌")
             bot.sendMessage(chat_id, "Now, Tell what you think...")
         else:

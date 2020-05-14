@@ -22,7 +22,6 @@ def handle(msg):
             if less_than_ten_words(text):
                 global mutex
                 if not mutex:
-                    mutex = True
                     inform_me("User %s sent: %s" % (str(chat_id), str(text)))
                     if text == '/start':
                         bot.sendMessage(chat_id,
@@ -32,6 +31,7 @@ def handle(msg):
                                         "and also punctioation marks...\nPlease don't use them...\n")
                         bot.sendMessage(chat_id, "Now, Tell what you think...")
                     else:
+                        mutex = True
                         t1 = datetime.now()
 
                         bot.sendMessage(chat_id, "Processing your text...")
@@ -48,6 +48,7 @@ def handle(msg):
                         bot.sendMessage(me, emoji.emojize(
                             "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
                                 emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
+                        mutex = False
                 else:
                     bot.sendMessage(chat_id, "I'm processing right now.. \nPlease try again in a few minutes.")
             else:

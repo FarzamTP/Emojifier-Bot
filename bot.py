@@ -41,10 +41,12 @@ def on_callback_query(msg):
     bot.editMessageReplyMarkup(msg_identifier)
 
     if str(query_data) == "like":
-        bot.sendMessage(chat_id, emoji.emojize("Happy to guessed your sentence :smile:", use_aliases=True))
+        bot.sendMessage(chat_id, emoji.emojize("Yeah :tada: Thanks for your support. :smile:", use_aliases=True))
+        bot.sendMessage(chat_id, "Tell me more...")
     elif str(query_data) == "dislike":
         bot.sendMessage(chat_id, "Sorry that I couldn't understand you :sad:\nI'll grow better with help of nice guys "
                                  "like you :heart_eyes:")
+        bot.sendMessage(chat_id, "Tell me more...")
 
 
 def like_dislike_keyboard():

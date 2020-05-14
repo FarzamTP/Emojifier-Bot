@@ -3,7 +3,7 @@ import telepot
 from telepot.loop import MessageLoop
 import requests
 import emoji
-from telepot.namedtuple import InlineKeyboardButton
+from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup
 
 token = "1171061388:AAFxZjpuP_3R9iQNZnnN6s74O5ottQcItFs"
 
@@ -18,7 +18,8 @@ def handle(msg):
             bot.sendMessage(chat_id, "Hello!\nI am Emojizer, a newly born sense detector robot!\nI am in my primary "
                                      "stages of learning, so it may take a little time for me to respond...\nAs a "
                                      "child, I can not memorize long sentences (more than 10 words), complex words "
-                                     "and also punctioation marks...\nPlease don't use them...\nNow, Tell what you think...")
+                                     "and also punctioation marks...\nPlease don't use them...\n")
+            bot.sendMessage(chat_id, "Now, Tell what you think...")
         else:
             bot.sendMessage(chat_id, "Processing your text...")
             r = requests.post(url='https://faazi.ir/api/ask', data={'text': text})
@@ -48,7 +49,8 @@ def like_dislike_keyboard():
         [InlineKeyboardButton(text=emoji.emojize(":like:", use_aliases=True), callback_data="like"),
          InlineKeyboardButton(text=emoji.emojize(":dislike:", use_aliases=True), callback_data="dislike")],
     ]
-    return keyboard
+    main_keyboard = InlineKeyboardMarkup(inline_keyboard=keyboard)
+    return main_keyboard
 
 
 MessageLoop(bot, {'chat': handle,

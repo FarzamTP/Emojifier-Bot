@@ -5,6 +5,7 @@ import requests
 import emoji
 from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup
 from datetime import datetime
+me = 313030525
 
 token = "1171061388:AAFxZjpuP_3R9iQNZnnN6s74O5ottQcItFs"
 
@@ -15,6 +16,7 @@ def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     if content_type == 'text':
         text = msg["text"]
+        inform_me("User %s sent: %s" % (str(chat_id), str(text)))
         if text == '/start':
             bot.sendMessage(chat_id, "Hello!\nI am Emojizer, a newly born sense detector robot!\nI am in my primary "
                                      "stages of learning, so it may take a little time for me to respond...\nAs a "
@@ -31,8 +33,18 @@ def handle(msg):
             keyboard = like_dislike_keyboard()
 
             spent_time = (datetime.now() - t1).total_seconds()
-            bot.sendMessage(chat_id, emoji.emojize("Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
+            bot.sendMessage(chat_id, emoji.emojize(
+                "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
+                    emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
+
+            bot.sendMessage(me, emoji.emojize(
+                "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
+                    emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
     return
+
+
+def inform_me(text):
+    bot.sendMessage(me, text)
 
 
 def on_callback_query(msg):

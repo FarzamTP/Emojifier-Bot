@@ -51,7 +51,7 @@ def handle(msg):
                                     "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
                                         emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
                         else:
-                            bot.sendMessage(chat_id, emoji.emojize("I couldn't understand the words... :sad:",
+                            bot.sendMessage(chat_id, emoji.emojize("I couldn't understand the words... :pensive:",
                                                                    use_aliases=True))
                         mutex = False
                     else:

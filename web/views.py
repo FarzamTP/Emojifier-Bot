@@ -31,15 +31,15 @@ def read_glove_vecs(file_path):
     return words_to_index, index_to_words, gloveModel
 
 
-def sentences_to_indices(X, word_to_index, max_len):
-    X_indices = np.zeros((1, max_len))
-    sentence_words = [word.lower().replace('\t', '') for word in X[i].split(' ') if
-                      word.replace('\t', '') != '']
-    j = 0
-    for w in sentence_words:
-        X_indices[1, j] = word_to_index[w]
-        j += 1
-    return X_indices
+# def sentences_to_indices(X, word_to_index, max_len):
+#     X_indices = np.zeros((1, max_len))
+#     sentence_words = [word.lower().replace('\t', '') for word in X[i].split(' ') if
+#                       word.replace('\t', '') != '']
+#     j = 0
+#     for w in sentence_words:
+#         X_indices[1, j] = word_to_index[w]
+#         j += 1
+#     return X_indices
 
 
 word_to_index, index_to_words, word_to_vec_map = read_glove_vecs('/var/www/EmojifierBot/GloVe/glove.6B.50d.txt')
@@ -53,8 +53,8 @@ def classify(request):
     text = request.POST.get('text')
 
     X_indices = np.zeros((1, 32))
-    sentence_words = [word.lower().replace('\t', '') for word in "Hello I am A boy".split(' ') if
-                      word.replace('\t', '') != '']
+    # sentence_words = [word.lower().replace('\t', '') for word in "Hello I am A boy".split(' ') if
+    #                   word.replace('\t', '') != '']
 
     # j = 0
     # for w in sentence_words:
@@ -87,4 +87,4 @@ def classify(request):
     # return JsonResponse(data={'emoji': emoji,
     #                           'prob': prob})
     return JsonResponse(data={'status': X_indices,
-                              'model': sentence_words})
+                              'model': model.count_params()})

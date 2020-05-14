@@ -3,12 +3,12 @@ import numpy as np
 from keras.models import load_model
 from .models import Model, Sentence
 
-selected_model = Model.objects.all()[0]
-model_path = selected_model.path
-model = load_model(model_path)
-
 
 def classify(request):
+    selected_model = Model.objects.all()[0]
+    model_path = selected_model.path
+    model = load_model(model_path)
+
     text = request.POST.get('text')
     X_train_indices = selected_model.sentences_to_indices(str(text))
     pred = model.predict(X_train_indices)

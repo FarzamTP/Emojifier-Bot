@@ -14,7 +14,7 @@ def handle(msg):
     first_name = msg["from"]["first_name"]
     if content_type == 'text':
         text = msg["text"]
-        r = requests.post(url='http://faazi.ir/api/ask', data={'text': text})
+        r = requests.post(url='https://faazi.ir/api/ask', data={'text': text})
         print(r.ok)
         print(r.status_code)
         print(r.json())

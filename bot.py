@@ -5,9 +5,9 @@ import requests
 import emoji
 from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup
 from datetime import datetime
-me = 313030525
+me = "XXXXXXX"
 
-token = "1171061388:AAFxZjpuP_3R9iQNZnnN6s74O5ottQcItFs"
+token = "XXXXXXX---XXXXXXX"
 
 bot = telepot.Bot(token)
 

@@ -46,8 +46,8 @@ def on_callback_query(self, msg):
 
 def like_dislike_keyboard():
     keyboard = [
-        [InlineKeyboardButton(text=emoji.emojize(":like:", use_aliases=True), callback_data="like"),
-         InlineKeyboardButton(text=emoji.emojize(":dislike:", use_aliases=True), callback_data="dislike")],
+        [InlineKeyboardButton(text=emoji.emojize(":thumbsup:", use_aliases=True), callback_data="like"),
+         InlineKeyboardButton(text=emoji.emojize(":thumbsdown:", use_aliases=True), callback_data="dislike")],
     ]
     main_keyboard = InlineKeyboardMarkup(inline_keyboard=keyboard)
     return main_keyboard

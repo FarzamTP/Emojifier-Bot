@@ -31,18 +31,18 @@ def read_glove_vecs(file_path):
     return words_to_index, index_to_words, gloveModel
 
 
-# def sentences_to_indices(X, word_to_index, max_len):
-#     X_indices = np.zeros((1, max_len))
-#     sentence_words = [word.lower().replace('\t', '') for word in X[i].split(' ') if
-#                       word.replace('\t', '') != '']
-#     j = 0
-#     for w in sentence_words:
-#         X_indices[1, j] = word_to_index[w]
-#         j += 1
-#     return X_indices
+def sentences_to_indices(X, word_to_index, max_len):
+    X_indices = np.zeros((1, max_len))
+    sentence_words = [word.lower().replace('\t', '') for word in X[0].split(' ') if
+                      word.replace('\t', '') != '']
+    j = 0
+    for w in sentence_words:
+        X_indices[0, j] = word_to_index[w]
+        j += 1
+    return X_indices
 
 
-# word_to_index, index_to_words, word_to_vec_map = read_glove_vecs('/var/www/EmojifierBot/GloVe/glove.6B.50d.txt')
+word_to_index, index_to_words, word_to_vec_map = read_glove_vecs('/var/www/EmojifierBot/GloVe/glove.6B.50d.txt')
 
 
 @csrf_exempt
@@ -50,21 +50,13 @@ def classify(request):
     model_path = '/var/www/EmojifierBot/model/model.h5'
 
     model = load_model(model_path)
-    # text = request.POST.get('text')
-
-    X_indices = np.zeros((1, 32))
-    # print(X_indices)
-    # sentence_words = [word.lower().replace('\t', '') for word in "Hello I am A boy".split(' ') if
-    #                   word.replace('\t', '') != '']
-
-    # j = 0
-    # for w in sentence_words:
-    #     X_indices[1, j] = word_to_index[w]
-    #     j += 1
-
-
-    # X_train_indices = sentences_to_indices(np.asarray([str(text)]), word_to_index, 50)
-    # pred = model.predict(X_train_indices)
+    text = request.POST.get('text')
+    ind = sentences_to_indices(["Hello I am A boy"], word_to_index, 32)
+    print(ind)
+    X_train_indices = sentences_to_indices(np.asarray([str(text)]), word_to_index, 50)
+    print("X_train_indices:", X_train_indices)
+    pred = model.predict(X_train_indices)
+    print("Pred:", pred)
     # emoji_idx = np.argmax(pred[0])
     # print("Emoji idx:", emoji_idx)
     # prob = pred[0][emoji_idx]
@@ -87,5 +79,5 @@ def classify(request):
     # print("Emoji:", emoji)
     # return JsonResponse(data={'emoji': emoji,
     #                           'prob': prob})
-    return JsonResponse(data={'status': X_indices,
-                              'model': model.count_params()})
+    return JsonResponse(data={'status': str(pred),
+                              'model': str(model)})

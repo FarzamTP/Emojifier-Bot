@@ -1,0 +1,32 @@
+import time
+import telepot
+from telepot.loop import MessageLoop
+
+token = "490959630:AAHgvq1bzbV3O_eRl-wMSu2caAX12_pF5Fc"
+
+bot = telepot.Bot(token)
+
+
+def handle(msg):
+    content_type, chat_type, chat_id = telepot.glance(msg)
+    message_id = msg["message_id"]
+    text = msg["text"]
+    first_name = msg["from"]["first_name"]
+    if content_type == 'text':
+        bot.sendMessage(chat_id, "Hello!")
+
+
+def on_callback_query(self, msg):
+    query_id, from_id, query_data = telepot.glance(msg, flavor='callback_query')
+    message_id = msg['message']['message_id']
+    chat_id = msg['from']['id']
+    return
+
+
+MessageLoop(bot, {'chat': handle,
+                  'callback_query': on_callback_query}).run_as_thread()
+print('Listening ...')
+
+# Keep the program running.
+while 1:
+    time.sleep(10)

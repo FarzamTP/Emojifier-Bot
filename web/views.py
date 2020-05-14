@@ -51,7 +51,17 @@ def classify(request):
 
     model = load_model(model_path)
     text = request.POST.get('text')
-    ind = sentences_to_indices(["Hello I am A boy"], word_to_index, 32)
+
+    X_indices = np.zeros((1, 32))
+    sentence_words = [word.lower().replace('\t', '') for word in "Hello I am A boy".split(' ') if
+                      word.replace('\t', '') != '']
+
+    j = 0
+    for w in sentence_words:
+        X_indices[1, j] = word_to_index[w]
+        j += 1
+
+
     # X_train_indices = sentences_to_indices(np.asarray([str(text)]), word_to_index, 50)
     # pred = model.predict(X_train_indices)
     # emoji_idx = np.argmax(pred[0])
@@ -76,5 +86,5 @@ def classify(request):
     # print("Emoji:", emoji)
     # return JsonResponse(data={'emoji': emoji,
     #                           'prob': prob})
-    return JsonResponse(data={'status': ind,
-                              'model': str(model)})
+    return JsonResponse(data={'status': X_indices,
+                              'model': sentence_words})

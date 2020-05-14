@@ -19,15 +19,14 @@ def handle(msg):
     if content_type == 'text':
         text = msg["text"]
         global mutex
-        print(mutex)
         if text == '/start':
             bot.sendMessage(chat_id,
                             "Hello!\nI am Emojizer, a newly born sense detector robot!\nI am in my primary "
                             "stages of learning, so it may take a little time for me to respond...\nAs a "
                             "child, I can not memorize long sentences (more than 10 words), complex words "
                             "and also punctuation marks...\nPlease don't use them...\n"
-                            "If I didn't start processing immediately PLEASE DO‌ NOT HESITATE!\n"
-                            "That's because I'm processing at the moment and will process you sentence in a minute.‌")
+                            "If I didn't start processing immediately: \n\nPLEASE DO‌ NOT HESITATE!\n"
+                            "That's because I'm processing at the moment and will process your sentence in a minute.‌")
             bot.sendMessage(chat_id, "Now, Tell what you think...")
         else:
             if not mutex:

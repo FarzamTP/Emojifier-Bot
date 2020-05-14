@@ -2,7 +2,7 @@ import time
 import telepot
 from telepot.loop import MessageLoop
 
-token = "490959630:AAHgvq1bzbV3O_eRl-wMSu2caAX12_pF5Fc"
+token = "1171061388:AAFxZjpuP_3R9iQNZnnN6s74O5ottQcItFs"
 
 bot = telepot.Bot(token)
 
@@ -14,6 +14,7 @@ def handle(msg):
     first_name = msg["from"]["first_name"]
     if content_type == 'text':
         bot.sendMessage(chat_id, "Hello!")
+    return
 
 
 def on_callback_query(self, msg):

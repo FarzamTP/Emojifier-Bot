@@ -7,11 +7,11 @@ import string
 from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup
 from datetime import datetime
 
-me = 313030525
-channel_id = -1001499881955
+me = 0
+channel_id = 0
 mutex = False
-token = "1171061388:AAFxZjpuP_3R9iQNZnnN6s74O5ottQcItFs"
-URL = 'https://faraanak.ir/'
+token = "XXXXXXX-XXXXXXX"
+URL = 'XXX.com'
 bot = telepot.Bot(token)
 
 
@@ -37,9 +37,6 @@ def handle(msg):
                             mutex = True
                             bot.sendMessage(chat_id, "Started to export...")
                             r = requests.get(url=URL + 'api/export')
-                            print(r.ok)
-                            print(r.status_code)
-                            print(r.json())
                             if r.ok:
                                 with open('./media/data.csv', 'r') as file:
                                     bot.sendDocument(me, file, 'Exported data')

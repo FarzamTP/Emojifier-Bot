@@ -94,7 +94,4 @@ def submit(request):
         sentence.feedback = 'dislike'
 
     sentence.save()
-    return JsonResponse(data={'status': 200,
-                              'else': str(action),
-                              '1': str(sentence_id),
-                              '2': str(emoji_unicode)})
+    return JsonResponse(data={'status': 200})

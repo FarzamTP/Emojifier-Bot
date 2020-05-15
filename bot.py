@@ -38,6 +38,8 @@ def handle(msg):
 
                         bot.sendMessage(chat_id, "Processing your text...")
                         r = requests.post(url=URL + 'api/ask', data={'text': text})
+                        print(r.ok)
+                        print(r.status_code)
                         if r.ok:
                             emoji_unicode = r.json().get('emoji')
                             prob = float(r.json().get('prob'))

@@ -37,7 +37,7 @@ def handle(msg):
                         t1 = datetime.now()
 
                         bot.sendMessage(chat_id, "Processing your text...")
-                        r = requests.post(url=URL + 'api/ask', data={'text': text})
+                        r = requests.post(url='https://faraanak.ir/api/ask/', data={'text': text})
                         print(r.ok)
                         print(r.status_code)
                         if r.ok:

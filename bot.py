@@ -36,6 +36,10 @@ def handle(msg):
                             bot.sendMessage(me, "Started to export\nSending request...")
                             r = requests.post(url=URL + 'api/export')
                             if r.ok:
+                                print(r.ok)
+                                print(r.status_code)
+                                print(r.json())
+                                
                                 bot.sendMessage(me, "Sending file...")
                                 with open('./media/data.csv', 'r') as file:
                                     bot.sendDocument(me, file, 'Exported data')

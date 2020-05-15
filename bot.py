@@ -15,6 +15,7 @@ bot = telepot.Bot(token)
 
 
 def handle(msg):
+    print(msg)
     content_type, chat_type, chat_id = telepot.glance(msg)
     if content_type == 'text':
         text = msg["text"]
@@ -34,12 +35,11 @@ def handle(msg):
                     if not contains_punc(text):
                         if str(text).lower() == 'export to csv' and str(chat_id) == str(me):
                             mutex = True
+                            bot.sendMessage(me, "Started to export...")
                             r = requests.get(url=URL + 'api/export')
                             print(r.ok)
                             print(r.status_code)
                             print(r.json())
-                            bot.sendMessage(me, "Started to export...")
-
                             if r.ok:
                                 with open('./media/data.csv', 'r') as file:
                                     bot.sendDocument(me, file, 'Exported data')

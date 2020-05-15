@@ -8,6 +8,7 @@ from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup
 from datetime import datetime
 
 me = 313030525
+channel_id = -1001499881955
 mutex = False
 token = "1171061388:AAFxZjpuP_3R9iQNZnnN6s74O5ottQcItFs"
 URL = 'https://faraanak.ir/'
@@ -35,17 +36,17 @@ def handle(msg):
                     if not contains_punc(text):
                         if str(text).lower() == 'export to csv' and str(chat_id) == str(me):
                             mutex = True
-                            bot.sendMessage(me, "Started to export...")
+                            bot.sendMessage(chat_id, "Started to export...")
                             r = requests.get(url=URL + 'api/export')
                             print(r.ok)
                             print(r.status_code)
                             print(r.json())
                             if r.ok:
                                 with open('./media/data.csv', 'r') as file:
-                                    bot.sendDocument(me, file, 'Exported data')
+                                    bot.sendDocument(channel_id, file, 'Exported data')
                             mutex = False
                         else:
-                            inform_me("User %s sent: %s" % (str(chat_id), str(text)))
+                            bot.sendMessage(channel_id, "User %s sent: %s" % (str(chat_id), str(text)))
                             mutex = True
                             t1 = datetime.now()
 
@@ -79,10 +80,6 @@ def handle(msg):
     return
 
 
-def inform_me(text):
-    bot.sendMessage(me, text)
-
-
 def less_than_ten_words(text):
     if len(str(text).split(" ")) < 10:
         return True
@@ -114,7 +111,9 @@ def on_callback_query(msg):
 
         if action == "like":
             bot.sendMessage(chat_id, emoji.emojize("Yeah :tada: Thanks for your support. :smile:", use_aliases=True))
-            bot.sendMessage(me, emoji.emojize("Yeah :tada: Thanks for your support. :smile:", use_aliases=True))
+
+            # Posts to channel
+            bot.sendMessage(channel_id, emoji.emojize("Yeah :tada: Thanks for your support. :smile:", use_aliases=True))
             submit_impression(action, sentence_id, emoji_unicode)
             bot.sendMessage(chat_id, "Tell me more...")
         elif action == "dislike":
@@ -124,12 +123,9 @@ def on_callback_query(msg):
                                                    "correct emoji",
                                                    use_aliases=True), reply_markup=new_keyboard)
 
-            bot.sendMessage(me, emoji.emojize("Sorry that I couldn't understand you :pensive:\nI'll grow better "
-                                              "with help of nice guys like you :heart_eyes:\nPlease choose the "
-                                              "correct emoji:",
-                                              use_aliases=True), reply_markup=new_keyboard)
         elif action == 'label':
-            bot.sendMessage(me, emoji.emojize("%s submitted %s" % (str(chat_id), emoji_unicode)))
+            bot.sendMessage(channel_id, "[Profile](tg://user?id=%s) submitted %s" % (str(chat_id), emoji_unicode),
+                            parse_mode="Markdown")
             status = submit_impression(action, sentence_id, emoji_unicode)
             if status == 200:
                 bot.sendMessage(chat_id, "Thanks for your help!")

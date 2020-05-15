@@ -108,10 +108,17 @@ def on_callback_query(msg):
             bot.sendMessage(chat_id, "Tell me more...")
         elif action == "dislike":
             new_keyboard = other_emoji_keyboard(emoji_unicode, sentence_id)
-            bot.sendMessage(me, emoji.emojize("Sorry that I couldn't understand you :pensive:\nI'll grow better with "
-                                              "help of nice guys like you :heart_eyes:\nPlease choose the correct emoji",
+            bot.sendMessage(chat_id, emoji.emojize("Sorry that I couldn't understand you :pensive:\nI'll grow better "
+                                                   "with help of nice guys like you :heart_eyes:\nPlease choose the "
+                                                   "correct emoji",
+                                                   use_aliases=True), reply_markup=new_keyboard)
+
+            bot.sendMessage(me, emoji.emojize("Sorry that I couldn't understand you :pensive:\nI'll grow better "
+                                              "with help of nice guys like you :heart_eyes:\nPlease choose the "
+                                              "correct emoji",
                                               use_aliases=True), reply_markup=new_keyboard)
         elif action == 'label':
+            bot.sendMessage(me, "%s submitted %s" % (str(chat_id), emoji_unicode))
             status = submit_impression(action, message_id, emoji_unicode)
             if status == 200:
                 bot.sendMessage(chat_id, "Thanks for your help!")
@@ -131,7 +138,7 @@ def other_emoji_keyboard(emoji_unicode, sentence_id):
     print(emoji_unicode)
     keyboard = [[]]
 
-    emoji_unicode_list = ['other', ':heart:', ':baseball:', ':smile:', ':disappointed:', ':fork_and_knife:']
+    emoji_unicode_list = ['Other', ':heart:', ':baseball:', ':smile:', ':disappointed:', ':fork_and_knife:']
     emoji_unicode_list.remove(emoji_unicode)
     for emoji_code in emoji_unicode_list:
         keyboard[0].append(

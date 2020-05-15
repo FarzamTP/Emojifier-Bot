@@ -144,8 +144,8 @@ def submit_impression(action, sentence_id, emoji_unicode):
 def other_emoji_keyboard(emoji_unicode, sentence_id):
     keyboard = [[], []]
 
-    emoji_unicode_list = [':heart:', ':baseball:', ':smile:', ':disappointed:', ':fork_and_knife:',
-                          ':heart_eyes:', ':neutral_face:', ':scream:', ':rage:', ':see_no_evil:', ':expressionless:']
+    emoji_unicode_list = [':heart:', ':heart_eyes:', ':smile:', ':disappointed:', ':expressionless:',
+                          ':see_no_evil:', ':neutral_face:', ':scream:', ':rage:', ':fork_and_knife:', ':baseball:']
     emoji_unicode_list.remove(emoji_unicode)
 
     for idx, emoji_code in enumerate(emoji_unicode_list):

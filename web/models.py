@@ -6,7 +6,7 @@ class Sentence(models.Model):
     prob = models.FloatField(blank=True, default=0.0)
 
     none = 'none'
-    other = 'other'
+    other = 'Other'
     heart = ':heart:'
     baseball = ':baseball:'
     smile = ':smile:'
@@ -15,7 +15,7 @@ class Sentence(models.Model):
 
     emoji_choices = (
         (none, 'none'),
-        (other, 'other'),
+        (other, 'Other'),
         (heart, ':heart:'),
         (baseball, ':baseball:'),
         (smile, ':smile:'),
@@ -40,5 +40,5 @@ class Sentence(models.Model):
     feedback = models.CharField(blank=True, choices=feedback_choices, default=none, max_length=32)
 
     def __str__(self):
-        return '{}-{}-{}'.format(self.text, self.feedback, self.predicted_emoji)
+        return '{}-{}-{}-{}-{}.%3f'.format(self.text, self.predicted_emoji, self.feedback, self.assigned_label, self.prob)
 

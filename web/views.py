@@ -1,8 +1,11 @@
 from django.http import JsonResponse
 import numpy as np
 from django.views.decorators.csrf import csrf_exempt
-from keras.models import load_model
 from .models import Sentence
+
+np.warnings.filterwarnings('ignore')
+
+from keras.models import load_model
 
 
 def read_glove_vecs(file_path):

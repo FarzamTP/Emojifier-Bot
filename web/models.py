@@ -39,3 +39,6 @@ class Sentence(models.Model):
 
     feedback = models.CharField(blank=True, choices=feedback_choices, default=none, max_length=32)
 
+    def __str__(self):
+        return '{}-{}'.format(self.text, self.feedback)
+

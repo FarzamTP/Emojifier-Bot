@@ -115,7 +115,7 @@ def on_callback_query(msg):
 
             bot.sendMessage(me, emoji.emojize("Sorry that I couldn't understand you :pensive:\nI'll grow better "
                                               "with help of nice guys like you :heart_eyes:\nPlease choose the "
-                                              "correct emoji",
+                                              "correct emoji:",
                                               use_aliases=True), reply_markup=new_keyboard)
         elif action == 'label':
             bot.sendMessage(me, emoji.emojize("%s submitted %s" % (str(chat_id), emoji_unicode)))

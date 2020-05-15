@@ -32,6 +32,11 @@ def handle(msg):
             if not mutex:
                 if less_than_ten_words(text):
                     if not contains_punc(text):
+                        if str(text).lower() == 'export to csv' and str(chat_id) == str(me):
+                            r = requests.post(url=URL + 'api/export/')
+                            if r.ok:
+                                with open('./data.csv') as f:
+                                    bot.sendDocument(me, f, 'Exported data')
                         inform_me("User %s sent: %s" % (str(chat_id), str(text)))
                         mutex = True
                         t1 = datetime.now()

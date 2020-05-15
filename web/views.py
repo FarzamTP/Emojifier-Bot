@@ -2,6 +2,7 @@ from django.http import JsonResponse
 import numpy as np
 from django.views.decorators.csrf import csrf_exempt
 from .models import Sentence
+import pandas as pd
 
 np.warnings.filterwarnings('ignore')
 
@@ -95,3 +96,15 @@ def submit(request):
 
     sentence.save()
     return JsonResponse(data={'status': 200})
+
+
+@csrf_exempt
+def export_to_csv(request):
+    data = pd.DataFrame(columns=['Text', 'Predicted', 'Feedback', 'Labeled', 'Probability'])
+
+    sentences = Sentence.objects.all()
+
+    for idx, sentence in enumerate(sentences):
+        data.loc[idx] = [sentence.text, sentence.predicted_emoji, sentence.feedback, sentence.assigned_label, sentence.prob]
+    data.to_csv('./data.csv')
+    return

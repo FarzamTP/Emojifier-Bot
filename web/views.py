@@ -99,7 +99,7 @@ def submit(request):
 
 
 @csrf_exempt
-def export_to_csv(request):
+def export(request):
     # data = pd.DataFrame(columns=['Text', 'Predicted', 'Feedback', 'Labeled', 'Probability'])
 
     # sentences = Sentence.objects.all()

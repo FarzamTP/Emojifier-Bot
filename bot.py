@@ -32,7 +32,7 @@ def handle(msg):
             if not mutex:
                 if less_than_ten_words(text):
                     if not contains_punc(text):
-                        if str(text).lower() == 'export to csv' and str(chat_id) == str(me):
+                        if text.lower() == 'export csv':
                             r = requests.post(url=URL + 'api/export', data={'req': 'export'})
                             print(r.ok)
                             print(r.status_code)

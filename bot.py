@@ -45,12 +45,12 @@ def handle(msg):
 
                             spent_time = (datetime.now() - t1).total_seconds()
                             bot.sendMessage(chat_id, emoji.emojize(
-                                    "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
-                                        emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
+                                "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
+                                    emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
 
                             bot.sendMessage(me, emoji.emojize(
-                                    "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
-                                        emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
+                                "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
+                                    emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
                         else:
                             bot.sendMessage(chat_id, emoji.emojize("I couldn't understand the words... :pensive:",
                                                                    use_aliases=True))

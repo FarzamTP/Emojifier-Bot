@@ -51,17 +51,10 @@ def classify(request):
 
     model = load_model(model_path)
     text = request.POST.get('text')
-    # text = "Hello I am a boy"
     X_train_indices = sentences_to_indices(np.asarray([str(text)]), word_to_index, 10)
-    print("X_train_indices:", X_train_indices)
     pred = model.predict(X_train_indices)
-    print("Pred:", pred)
     emoji_idx = np.argmax(pred[0])
-    print("Emoji idx:", emoji_idx)
     prob = pred[0][emoji_idx]
-    print("Prob:", prob)
-
-    sentence = Sentence(text=text, prob=prob)
 
     if emoji_idx == 0:
         emoji = ':heart:'
@@ -73,8 +66,9 @@ def classify(request):
         emoji = ":disappointed:"
     else:
         emoji = ":fork_and_knife:"
-    sentence.emoji = emoji
+
+    sentence = Sentence(text=text, prob=prob, predicted_emoji=emoji)
     sentence.save()
-    print("Emoji:", emoji)
+
     return JsonResponse(data={'emoji': str(emoji),
                               'prob': str(prob)})

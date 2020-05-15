@@ -1,5 +1,4 @@
 from django.db import models
-import numpy as np
 
 
 class Sentence(models.Model):
@@ -7,6 +6,7 @@ class Sentence(models.Model):
     prob = models.FloatField(blank=True, default=0.0)
 
     none = 'none'
+    other = 'other'
     heart = ':heart:'
     baseball = ':baseball:'
     smile = ':smile:'
@@ -15,6 +15,7 @@ class Sentence(models.Model):
 
     emoji_choices = (
         (none, 'none'),
+        (other, 'other'),
         (heart, ':heart:'),
         (baseball, ':baseball:'),
         (smile, ':smile:'),
@@ -22,7 +23,9 @@ class Sentence(models.Model):
         (fork_and_knife, ':fork_and_knife:')
     )
 
-    emoji = models.CharField(blank=True, choices=emoji_choices, default=none, max_length=32)
+    predicted_emoji = models.CharField(blank=True, choices=emoji_choices, default=none, max_length=32)
+
+    assigned_label = models.CharField(blank=True, choices=emoji_choices, default=none, max_length=32)
 
     none = "none"
     like = "like"
@@ -35,3 +38,4 @@ class Sentence(models.Model):
     )
 
     feedback = models.CharField(blank=True, choices=feedback_choices, default=none, max_length=32)
+

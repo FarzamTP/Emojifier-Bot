@@ -1,11 +1,7 @@
-import string
+import pandas as pd
 
-def contains_punc(text):
-    flag = False
-    for p in string.punctuation:
-        if p in text:
-            flag = True
-            break
-    return flag
+data = pd.DataFrame(columns=['Text', 'Predicted', 'Impression', 'Label'])
 
-print(contains_punc("@asd"))
+data.loc[0] = (['Hey', 3, 0, 2])
+
+print(data)

@@ -118,7 +118,7 @@ def on_callback_query(msg):
                                               "correct emoji",
                                               use_aliases=True), reply_markup=new_keyboard)
         elif action == 'label':
-            bot.sendMessage(me, "%s submitted %s" % (str(chat_id), emoji_unicode))
+            bot.sendMessage(me, emoji.emojize("%s submitted %s" % (str(chat_id), emoji_unicode)))
             status = submit_impression(action, message_id, emoji_unicode)
             if status == 200:
                 bot.sendMessage(chat_id, "Thanks for your help!")

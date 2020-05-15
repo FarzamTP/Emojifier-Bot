@@ -85,13 +85,13 @@ def submit(request):
     emoji_unicode = request.POST.get('emoji_unicode')
 
     sentence = Sentence.objects.all().filter(pk=sentence_id)[0]
-
-    sentence.assigned_label = emoji_unicode
-
-    if action == 'like':
-        sentence.feedback = 'like'
-    elif action == 'label':
-        sentence.feedback = 'dislike'
-
-    sentence.save()
-    return JsonResponse(data={'status': 200})
+    #
+    # sentence.assigned_label = emoji_unicode
+    #
+    # if action == 'like':
+    #     sentence.feedback = 'like'
+    # elif action == 'label':
+    #     sentence.feedback = 'dislike'
+    #
+    # sentence.save()
+    return JsonResponse(data={'status': sentence.assigned_label})

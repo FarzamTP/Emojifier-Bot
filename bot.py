@@ -126,7 +126,10 @@ def on_callback_query(msg):
                                                    use_aliases=True), reply_markup=new_keyboard)
 
         elif action == 'label':
-            bot.sendMessage(channel_id, emoji.emojize("[Profile](tg://user?id=%s) submitted %s" % (str(chat_id), emoji_unicode)), parse_mode="Markdown")
+            bot.sendMessage(channel_id,
+                            emoji.emojize("[Profile](tg://user?id=%s) submitted %s" % (str(chat_id), emoji_unicode),
+                                          use_aliases=True),
+                            parse_mode="Markdown")
             status = submit_impression(action, sentence_id, emoji_unicode)
             if status == 200:
                 bot.sendMessage(chat_id, "Thanks for your help!")

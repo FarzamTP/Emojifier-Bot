@@ -95,4 +95,6 @@ def submit(request):
     #
     # sentence.save()
     return JsonResponse(data={'status': 200,
-                              'else': str(action, sentence_id, emoji_unicode)})
+                              'else': str(action),
+                              '1': str(sentence_id),
+                              '2': str(emoji_unicode)})

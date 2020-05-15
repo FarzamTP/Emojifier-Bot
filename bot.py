@@ -128,6 +128,7 @@ def submit_impression(action, sentence_id, emoji_unicode):
 
 
 def other_emoji_keyboard(emoji_unicode, sentence_id):
+    print(emoji_unicode)
     keyboard = [[]]
 
     emoji_unicode_list = ['other', ':heart:', ':baseball:', ':smile:', ':disappointed:', ':fork_and_knife:']

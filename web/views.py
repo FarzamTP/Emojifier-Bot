@@ -54,7 +54,8 @@ def classify(request):
     model_path = '/var/www/EmojifierBot/model/model.h5'
 
     model = load_model(model_path)
-    text = request.POST.get('text')
+    # text = request.POST.get('text')
+    text = "Hello I am fine"
     X_train_indices = sentences_to_indices(np.asarray([str(text)]), word_to_index, 10)
     pred = model.predict(X_train_indices)
     emoji_idx = np.argmax(pred[0])

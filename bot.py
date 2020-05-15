@@ -37,8 +37,9 @@ def handle(msg):
                             print(r.ok)
                             print(r.status_code)
                             print(r.json())
+
+                            bot.sendMessage(me, "Started to export...")
                             if r.ok:
-                                bot.sendMessage(me, "Started to export...")
                                 with open('./data.csv', 'r') as file:
                                     bot.sendDocument(me, file, 'Exported data')
                         inform_me("User %s sent: %s" % (str(chat_id), str(text)))

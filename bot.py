@@ -16,7 +16,6 @@ bot = telepot.Bot(token)
 
 
 def handle(msg):
-    print(msg)
     content_type, chat_type, chat_id = telepot.glance(msg)
     if content_type == 'text':
         text = msg["text"]
@@ -46,7 +45,8 @@ def handle(msg):
                                     bot.sendDocument(channel_id, file, 'Exported data')
                             mutex = False
                         else:
-                            bot.sendMessage(channel_id, "User %s sent: %s" % (str(chat_id), str(text)))
+                            bot.sendMessage(channel_id, text="[Profile](tg://user?id=%s) sent %s" % (str(chat_id), text),
+                                            parse_mode="Markdown")
                             mutex = True
                             t1 = datetime.now()
 
@@ -63,9 +63,10 @@ def handle(msg):
                                     "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
                                         emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
 
-                                bot.sendMessage(me, emoji.emojize(
+                                bot.sendMessage(channel_id, emoji.emojize(
                                     "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
                                         emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
+
                             else:
                                 bot.sendMessage(chat_id, emoji.emojize("I couldn't understand the words... :pensive:",
                                                                        use_aliases=True))

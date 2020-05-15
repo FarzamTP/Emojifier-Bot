@@ -45,7 +45,7 @@ def handle(msg):
                                     bot.sendDocument(channel_id, file, 'Exported data')
                             mutex = False
                         else:
-                            bot.sendMessage(channel_id, text="[Profile](tg://user?id=%s) sent %s" % (str(chat_id), text),
+                            bot.sendMessage(channel_id, text="[Profile](tg://user?id=%s) sent '%s'" % (str(chat_id), text),
                                             parse_mode="Markdown")
                             mutex = True
                             t1 = datetime.now()
@@ -65,7 +65,7 @@ def handle(msg):
 
                                 bot.sendMessage(channel_id, emoji.emojize(
                                     "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
-                                        emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
+                                        emoji_unicode, prob), use_aliases=True))
 
                             else:
                                 bot.sendMessage(chat_id, emoji.emojize("I couldn't understand the words... :pensive:",

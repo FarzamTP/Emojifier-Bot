@@ -12,10 +12,11 @@ class Sentence(models.Model):
     disappointed = ':disappointed:'
     fork_and_knife = ':fork_and_knife:'
     heart_eyes = ':heart_eyes:'
-    poker = ':poker:'
+    neutral_face = ':neutral_face:'
     scream = ':scream:'
     rage = ':rage:'
     see_no_evil = ':see_no_evil:'
+    expressionless = ':expressionless:'
 
     emoji_choices = (
         (none, 'none'),
@@ -25,10 +26,11 @@ class Sentence(models.Model):
         (disappointed, ':disappointed:'),
         (fork_and_knife, ':fork_and_knife:'),
         (heart_eyes, ':heart_eyes:'),
-        (poker, ':poker:'),
+        (neutral_face, ':neutral_face:'),
         (scream, ':scream:'),
         (rage, ':rage:'),
         (see_no_evil, ':see_no_evil:'),
+        (expressionless, ':expressionless:')
     )
 
     predicted_emoji = models.CharField(blank=True, choices=emoji_choices, default=none, max_length=32)

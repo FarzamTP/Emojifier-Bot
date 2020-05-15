@@ -102,7 +102,7 @@ def submit(request):
 def export_to_csv(request):
     data = pd.DataFrame(columns=['Text', 'Predicted', 'Feedback', 'Labeled', 'Probability'])
 
-    sentences = Sentence.objects.all()
+    # sentences = Sentence.objects.all()
 
     # for idx, sentence in enumerate(sentences):
     #     data.loc[idx] = [str(sentence.text), str(sentence.predicted_emoji), str(sentence.feedback),

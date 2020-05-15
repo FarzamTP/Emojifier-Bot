@@ -10,7 +10,7 @@ from datetime import datetime
 me = 313030525
 mutex = False
 token = "1171061388:AAFxZjpuP_3R9iQNZnnN6s74O5ottQcItFs"
-
+URL = 'https://faraanak.ir/'
 bot = telepot.Bot(token)
 
 
@@ -37,7 +37,7 @@ def handle(msg):
                         t1 = datetime.now()
 
                         bot.sendMessage(chat_id, "Processing your text...")
-                        r = requests.post(url='https://faazi.ir/api/ask', data={'text': text})
+                        r = requests.post(url=URL + 'api/ask', data={'text': text})
                         if r.ok:
                             emoji_unicode = r.json().get('emoji')
                             prob = float(r.json().get('prob'))
@@ -124,16 +124,13 @@ def on_callback_query(msg):
 
 
 def submit_impression(action, sentence_id, emoji_unicode):
-    r = requests.post(url='https://faazi.ir/api/submit', data={'action': action, 'sentence_id': sentence_id,
-                                                               'emoji_unicode': emoji_unicode})
-    print(r.ok)
-    print(r.json())
+    r = requests.post(url=URL + 'api/submit', data={'action': action, 'sentence_id': sentence_id,
+                                                    'emoji_unicode': emoji_unicode})
     status = r.json().get('status')
     return status
 
 
 def other_emoji_keyboard(emoji_unicode, sentence_id):
-    print(emoji_unicode)
     keyboard = [[]]
 
     emoji_unicode_list = ['Other', ':heart:', ':baseball:', ':smile:', ':disappointed:', ':fork_and_knife:']

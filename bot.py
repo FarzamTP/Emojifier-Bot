@@ -37,10 +37,10 @@ def handle(msg):
                             print(r.ok)
                             print(r.status_code)
                             print(r.json())
-
                             bot.sendMessage(me, "Started to export...")
+
                             if r.ok:
-                                with open('./data.csv', 'r') as file:
+                                with open('./media/data.csv', 'r') as file:
                                     bot.sendDocument(me, file, 'Exported data')
                         inform_me("User %s sent: %s" % (str(chat_id), str(text)))
                         mutex = True

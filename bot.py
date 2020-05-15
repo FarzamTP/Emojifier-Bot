@@ -42,7 +42,7 @@ def handle(msg):
                             emoji_unicode = r.json().get('emoji')
                             prob = float(r.json().get('prob'))
                             sentence_id = str(r.json().get('sentence_id'))
-                            keyboard = like_dislike_keyboard(emoji_unicode, sentence_id)
+                            keyboard = like_dislike_keyboard(sentence_id, emoji_unicode)
 
                             spent_time = (datetime.now() - t1).total_seconds()
                             bot.sendMessage(chat_id, emoji.emojize(

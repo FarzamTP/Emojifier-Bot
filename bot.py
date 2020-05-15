@@ -42,10 +42,11 @@ def handle(msg):
                             print(r.json())
                             if r.ok:
                                 with open('./media/data.csv', 'r') as file:
-                                    bot.sendDocument(channel_id, file, 'Exported data')
+                                    bot.sendDocument(me, file, 'Exported data')
                             mutex = False
                         else:
-                            bot.sendMessage(channel_id, text="[Profile](tg://user?id=%s) sent '%s'" % (str(chat_id), text),
+                            bot.sendMessage(channel_id,
+                                            text="[Profile](tg://user?id=%s) sent '%s'" % (str(chat_id), text),
                                             parse_mode="Markdown")
                             mutex = True
                             t1 = datetime.now()
@@ -141,12 +142,14 @@ def submit_impression(action, sentence_id, emoji_unicode):
 
 
 def other_emoji_keyboard(emoji_unicode, sentence_id):
-    keyboard = [[]]
+    keyboard = [[], [], []]
 
-    emoji_unicode_list = ['Other', ':heart:', ':baseball:', ':smile:', ':disappointed:', ':fork_and_knife:']
+    emoji_unicode_list = [':heart:', ':baseball:', ':smile:', ':disappointed:', ':fork_and_knife:',
+                          ':heart_eyes:', ':poker:', ':scream:', ':rage:', ':see_no_evil:']
     emoji_unicode_list.remove(emoji_unicode)
-    for emoji_code in emoji_unicode_list:
-        keyboard[0].append(
+
+    for idx, emoji_code in enumerate(emoji_unicode_list):
+        keyboard[int(idx / 3)].append(
             InlineKeyboardButton(text=emoji.emojize(emoji_code, use_aliases=True),
                                  callback_data="label %s %s" % (str(sentence_id), emoji_code))
         )

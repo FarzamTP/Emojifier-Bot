@@ -6,21 +6,29 @@ class Sentence(models.Model):
     prob = models.FloatField(blank=True, default=0.0)
 
     none = 'none'
-    other = 'Other'
     heart = ':heart:'
     baseball = ':baseball:'
     smile = ':smile:'
     disappointed = ':disappointed:'
     fork_and_knife = ':fork_and_knife:'
+    heart_eyes = ':heart_eyes:'
+    poker = ':poker:'
+    scream = ':scream:'
+    rage = ':rage:'
+    see_no_evil = ':see_no_evil:'
 
     emoji_choices = (
         (none, 'none'),
-        (other, 'Other'),
         (heart, ':heart:'),
         (baseball, ':baseball:'),
         (smile, ':smile:'),
         (disappointed, ':disappointed:'),
-        (fork_and_knife, ':fork_and_knife:')
+        (fork_and_knife, ':fork_and_knife:'),
+        (heart_eyes, ':heart_eyes:'),
+        (poker, ':poker:'),
+        (scream, ':scream:'),
+        (rage, ':rage:'),
+        (see_no_evil, ':see_no_evil:'),
     )
 
     predicted_emoji = models.CharField(blank=True, choices=emoji_choices, default=none, max_length=32)

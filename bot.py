@@ -102,9 +102,7 @@ def on_callback_query(msg):
         if action == "like":
             bot.sendMessage(chat_id, emoji.emojize("Yeah :tada: Thanks for your support. :smile:", use_aliases=True))
             bot.sendMessage(me, emoji.emojize("Yeah :tada: Thanks for your support. :smile:", use_aliases=True))
-            status = submit_impression(action, sentence_id, emoji_unicode)
-            if status == 200:
-                bot.sendMessage(chat_id, "Thanks for your help!")
+            submit_impression(action, sentence_id, emoji_unicode)
             bot.sendMessage(chat_id, "Tell me more...")
         elif action == "dislike":
             new_keyboard = other_emoji_keyboard(emoji_unicode, sentence_id)

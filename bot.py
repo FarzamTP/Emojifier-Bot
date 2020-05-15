@@ -33,7 +33,7 @@ def handle(msg):
                 if less_than_ten_words(text):
                     if not contains_punc(text):
                         if str(text).lower() == 'export to csv' and str(chat_id) == str(me):
-                            r = requests.post(url=URL + 'api/export')
+                            r = requests.get(url=URL + 'api/export')
                             print(r.ok)
                             print(r.status_code)
                             print(r.json())

@@ -35,6 +35,7 @@ def handle(msg):
                         if str(text).lower() == 'export to csv' and str(chat_id) == str(me):
                             r = requests.post(url=URL + 'api/export', data={'req': 'export'})
                             print(r.ok)
+                            print(r.status_code)
                             print(r.json())
                             if r.ok:
                                 with open('./data.csv') as f:

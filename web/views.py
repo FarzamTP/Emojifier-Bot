@@ -74,4 +74,24 @@ def classify(request):
     sentence.save()
 
     return JsonResponse(data={'emoji': str(emoji),
-                              'prob': str(prob)})
+                              'prob': str(prob),
+                              'sentence_id': sentence.id})
+
+
+@csrf_exempt
+def submit_impression(request):
+    action = request.POST.get('action')
+    sentence_id = request.POST.get('sentence_id')
+    emoji_unicode = request.POST.get('emoji_unicode')
+
+    sentence = Sentence.objects.all().filter(pk=sentence_id)[0]
+
+    sentence.assigned_label = emoji_unicode
+
+    if action == 'like':
+        sentence.feedback = 'like'
+    elif action == 'label':
+        sentence.feedback = 'dislike'
+
+    sentence.save()
+    return JsonResponse(data={'status': 200})

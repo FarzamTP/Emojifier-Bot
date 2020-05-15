@@ -3,4 +3,5 @@ from . import views
 
 urlpatterns = [
     url('^api/ask$', views.classify, name='index'),
+    url()
 ]

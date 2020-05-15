@@ -41,7 +41,8 @@ def handle(msg):
                         if r.ok:
                             emoji_unicode = r.json().get('emoji')
                             prob = float(r.json().get('prob'))
-                            keyboard = like_dislike_keyboard()
+                            sentence_id = str(r.json().get('sentence_id'))
+                            keyboard = like_dislike_keyboard(emoji_unicode, sentence_id)
 
                             spent_time = (datetime.now() - t1).total_seconds()
                             bot.sendMessage(chat_id, emoji.emojize(
@@ -93,23 +94,60 @@ def on_callback_query(msg):
     msg_identifier = (chat_id, message_id)
     bot.editMessageReplyMarkup(msg_identifier)
 
-    if str(query_data) == "like":
-        bot.sendMessage(chat_id, emoji.emojize("Yeah :tada: Thanks for your support. :smile:", use_aliases=True))
-        bot.sendMessage(me, emoji.emojize("Yeah :tada: Thanks for your support. :smile:", use_aliases=True))
+    if len(str(query_data).split(" ")) == 3:
+        action = str(query_data).split(" ")[0]
+        sentence_id = str(query_data).split(" ")[1]
+        emoji_unicode = str(query_data).split(" ")[2]
 
-        bot.sendMessage(chat_id, "Tell me more...")
-    elif str(query_data) == "dislike":
-        bot.sendMessage(chat_id, emoji.emojize("Sorry that I couldn't understand you :pensive:\nI'll grow better with "
-                                               "help of nice guys like you :heart_eyes:", use_aliases=True))
-        bot.sendMessage(me, emoji.emojize("Sorry that I couldn't understand you :pensive:\nI'll grow better with "
-                                          "help of nice guys like you :heart_eyes:", use_aliases=True))
-        bot.sendMessage(chat_id, "Tell me more...")
+        if action == "like":
+            bot.sendMessage(chat_id, emoji.emojize("Yeah :tada: Thanks for your support. :smile:", use_aliases=True))
+            bot.sendMessage(me, emoji.emojize("Yeah :tada: Thanks for your support. :smile:", use_aliases=True))
+            status = submit_impression(action, sentence_id, emoji_unicode)
+            if status == 200:
+                bot.sendMessage(chat_id, "Thanks for your help!")
+            bot.sendMessage(chat_id, "Tell me more...")
+        elif action == "dislike":
+            new_keyboard = other_emoji_keyboard(emoji_unicode, sentence_id)
+            bot.sendMessage(me, emoji.emojize("Sorry that I couldn't understand you :pensive:\nI'll grow better with "
+                                              "help of nice guys like you :heart_eyes:\nPlease choose the correct emoji",
+                                              use_aliases=True), reply_markup=new_keyboard)
+        elif action == 'label':
+            status = submit_impression(action, message_id, emoji_unicode)
+            if status == 200:
+                bot.sendMessage(chat_id, "Thanks for your help!")
+            bot.sendMessage(chat_id, "Tell me more...")
 
 
-def like_dislike_keyboard():
+def submit_impression(action, sentence_id, emoji_unicode):
+    r = requests.post(url='https://faazi.ir/api/submit/', data={'action': action, 'sentence_id': sentence_id,
+                                                                'emoji_unicode': emoji_unicode})
+    print(r.ok)
+    print(r.json())
+    status = r.json().get('status')
+    return status
+
+
+def other_emoji_keyboard(emoji_unicode, sentence_id):
+    keyboard = [[]]
+
+    emoji_unicode_list = ['other', ':heart:', ':baseball:', ':smile:', ':disappointed:', ':fork_and_knife:']
+    emoji_unicode_list.remove(emoji_unicode)
+    for emoji_code in emoji_unicode_list:
+        keyboard[0].append(
+            InlineKeyboardButton(text=emoji.emojize(emoji_code, use_aliases=True),
+                                 callback_data="label %s %s" % (str(sentence_id), emoji_code))
+        )
+
+    main_keyboard = InlineKeyboardMarkup(inline_keyboard=keyboard)
+    return main_keyboard
+
+
+def like_dislike_keyboard(sentence_id, emoji_unicode):
     keyboard = [
-        [InlineKeyboardButton(text=emoji.emojize(":thumbsup:", use_aliases=True), callback_data="like"),
-         InlineKeyboardButton(text=emoji.emojize(":thumbsdown:", use_aliases=True), callback_data="dislike")],
+        [InlineKeyboardButton(text=emoji.emojize(":thumbsup:", use_aliases=True),
+                              callback_data="like " + sentence_id + " " + str(emoji_unicode)),
+         InlineKeyboardButton(text=emoji.emojize(":thumbsdown:", use_aliases=True),
+                              callback_data="dislike " + sentence_id + " " + str(emoji_unicode))],
     ]
     main_keyboard = InlineKeyboardMarkup(inline_keyboard=keyboard)
     return main_keyboard

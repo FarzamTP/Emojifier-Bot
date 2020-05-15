@@ -126,8 +126,8 @@ def on_callback_query(msg):
 
 
 def submit_impression(action, sentence_id, emoji_unicode):
-    r = requests.post(url='https://faazi.ir/api/submit/', data={'action': action, 'sentence_id': sentence_id,
-                                                                'emoji_unicode': emoji_unicode})
+    r = requests.post(url='https://faazi.ir/api/submit', data={'action': action, 'sentence_id': sentence_id,
+                                                               'emoji_unicode': emoji_unicode})
     print(r.ok)
     print(r.json())
     status = r.json().get('status')

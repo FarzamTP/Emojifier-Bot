@@ -108,6 +108,6 @@ def export(request):
         data.loc[idx] = [str(sentence.text), str(sentence.predicted_emoji), str(sentence.feedback),
                          str(sentence.assigned_label), float(sentence.prob)]
 
-    data.to_csv('/var/www/EmojifierBot/media/data.csv', index=False, header=True)
+    data.to_csv('./media/data.csv', index=False, header=True)
 
     return JsonResponse(data={'data': 200})

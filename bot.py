@@ -33,13 +33,10 @@ def handle(msg):
                 if less_than_ten_words(text):
                     if not contains_punc(text):
                         if str(text).lower() == 'export to csv' and str(chat_id) == str(me):
+                            bot.sendMessage(me, "Started to export\nSending request...")
                             r = requests.post(url=URL + 'api/export')
-                            print(r.ok)
-                            print(r.status_code)
-                            print(r.json())
-                            bot.sendMessage(me, "Started to export...")
-
                             if r.ok:
+                                bot.sendMessage(me, "Sending file...")
                                 with open('./media/data.csv', 'r') as file:
                                     bot.sendDocument(me, file, 'Exported data')
                         else:

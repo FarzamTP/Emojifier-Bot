@@ -32,14 +32,21 @@ def handle(msg):
             if not mutex:
                 if less_than_ten_words(text):
                     if not contains_punc(text):
+                        if str(text).lower() == 'export to csv' and str(chat_id) == str(me):
+                            r = requests.post(url=URL + 'api/export')
+                            print(r.ok)
+                            print(r.status_code)
+                            print(r.json())
+                            if r.ok:
+                                bot.sendMessage(me, "Started to export...")
+                                with open('./data.csv', 'r') as file:
+                                    bot.sendDocument(me, file, 'Exported data')
                         inform_me("User %s sent: %s" % (str(chat_id), str(text)))
                         mutex = True
                         t1 = datetime.now()
 
                         bot.sendMessage(chat_id, "Processing your text...")
                         r = requests.post(url=URL + 'api/ask', data={'text': text})
-                        print(r.ok)
-                        print(r.status_code)
                         if r.ok:
                             emoji_unicode = r.json().get('emoji')
                             prob = float(r.json().get('prob'))

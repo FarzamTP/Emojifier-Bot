@@ -54,8 +54,7 @@ def classify(request):
     model_path = '/var/www/EmojifierBot/model/model.h5'
 
     model = load_model(model_path)
-    # text = request.POST.get('text')
-    text = "Hello I am fine"
+    text = request.POST.get('text')
     X_train_indices = sentences_to_indices(np.asarray([str(text)]), word_to_index, 10)
     pred = model.predict(X_train_indices)
     emoji_idx = np.argmax(pred[0])
@@ -101,13 +100,13 @@ def submit(request):
 
 @csrf_exempt
 def export(request):
-    # data = pd.DataFrame(columns=['Text', 'Predicted', 'Feedback', 'Labeled', 'Probability'])
+    data = pd.DataFrame(columns=['Text', 'Predicted', 'Feedback', 'Labeled', 'Probability'])
 
-    # sentences = Sentence.objects.all()
+    sentences = Sentence.objects.all()
 
-    # for idx, sentence in enumerate(sentences):
-    #     data.loc[idx] = [str(sentence.text), str(sentence.predicted_emoji), str(sentence.feedback),
-    #                      str(sentence.assigned_label), float(sentence.prob)]
+    for idx, sentence in enumerate(sentences):
+        data.loc[idx] = [str(sentence.text), str(sentence.predicted_emoji), str(sentence.feedback),
+                         str(sentence.assigned_label), float(sentence.prob)]
 
-    # data.to_csv('./data.csv')
+    data.to_csv('./data.csv')
     return JsonResponse(data={'data': 200})

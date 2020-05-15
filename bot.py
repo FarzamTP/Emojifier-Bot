@@ -37,30 +37,31 @@ def handle(msg):
                             if r.ok:
                                 with open('./data.csv') as f:
                                     bot.sendDocument(me, f, 'Exported data')
-                        inform_me("User %s sent: %s" % (str(chat_id), str(text)))
-                        mutex = True
-                        t1 = datetime.now()
-
-                        bot.sendMessage(chat_id, "Processing your text...")
-                        r = requests.post(url=URL + 'api/ask', data={'text': text})
-                        if r.ok:
-                            emoji_unicode = r.json().get('emoji')
-                            prob = float(r.json().get('prob'))
-                            sentence_id = str(r.json().get('sentence_id'))
-                            keyboard = like_dislike_keyboard(sentence_id, emoji_unicode)
-
-                            spent_time = (datetime.now() - t1).total_seconds()
-                            bot.sendMessage(chat_id, emoji.emojize(
-                                "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
-                                    emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
-
-                            bot.sendMessage(me, emoji.emojize(
-                                "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
-                                    emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
                         else:
-                            bot.sendMessage(chat_id, emoji.emojize("I couldn't understand the words... :pensive:",
-                                                                   use_aliases=True))
-                        mutex = False
+                            inform_me("User %s sent: %s" % (str(chat_id), str(text)))
+                            mutex = True
+                            t1 = datetime.now()
+
+                            bot.sendMessage(chat_id, "Processing your text...")
+                            r = requests.post(url=URL + 'api/ask', data={'text': text})
+                            if r.ok:
+                                emoji_unicode = r.json().get('emoji')
+                                prob = float(r.json().get('prob'))
+                                sentence_id = str(r.json().get('sentence_id'))
+                                keyboard = like_dislike_keyboard(sentence_id, emoji_unicode)
+
+                                spent_time = (datetime.now() - t1).total_seconds()
+                                bot.sendMessage(chat_id, emoji.emojize(
+                                    "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
+                                        emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
+
+                                bot.sendMessage(me, emoji.emojize(
+                                    "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
+                                        emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
+                            else:
+                                bot.sendMessage(chat_id, emoji.emojize("I couldn't understand the words... :pensive:",
+                                                                       use_aliases=True))
+                            mutex = False
                     else:
                         bot.sendMessage(chat_id, "Please don't enter punctuation marks...")
                         bot.sendMessage(chat_id, "Now, Tell what you think...")

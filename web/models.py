@@ -40,5 +40,5 @@ class Sentence(models.Model):
     feedback = models.CharField(blank=True, choices=feedback_choices, default=none, max_length=32)
 
     def __str__(self):
-        return '{}-{}-{}-{}-{}.%3f'.format(self.text, self.predicted_emoji, self.feedback, self.assigned_label, self.prob)
+        return '{}-{}-{}-{}-{:.3f}'.format(self.text, self.predicted_emoji, self.feedback, self.assigned_label, self.prob)
 

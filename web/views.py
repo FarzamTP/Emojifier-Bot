@@ -79,7 +79,7 @@ def classify(request):
 
 
 @csrf_exempt
-def submit_impression(request):
+def submit(request):
     action = request.POST.get('action')
     sentence_id = request.POST.get('sentence_id')
     emoji_unicode = request.POST.get('emoji_unicode')

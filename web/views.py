@@ -106,5 +106,6 @@ def export_to_csv(request):
 
     for idx, sentence in enumerate(sentences):
         data.loc[idx] = [sentence.text, sentence.predicted_emoji, sentence.feedback, sentence.assigned_label, sentence.prob]
+
     data.to_csv('./data.csv')
-    return
+    return JsonResponse(data={'data': str(data)})

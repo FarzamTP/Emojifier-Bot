@@ -109,5 +109,5 @@ def export(request):
                          str(sentence.assigned_label), float(sentence.prob)]
 
     data.to_csv('/var/www/EmojifierBot/media/data.csv', index=False, header=True)
-    
+
     return JsonResponse(data={'data': 200})

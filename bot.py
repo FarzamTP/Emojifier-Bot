@@ -30,7 +30,6 @@ def handle(msg):
                             "That's because I'm processing at the moment and will process your sentence in a minute.‌")
             bot.sendMessage(chat_id, "Now, Tell what you think...")
         elif text == '/label_sentence':
-            bot.sendMessage(chat_id, "Loading sentence...")
             bot.sendMessage(channel_id, "[Profile](tg://user?id=%s) asked to label unassigned sentences..." %
                             str(chat_id), parse_mode="Markdown")
 
@@ -39,6 +38,8 @@ def handle(msg):
             if r.ok:
                 status = r.json().get('status')
                 if status == 200:
+                    bot.sendMessage(chat_id, "Loading sentence...")
+
                     sentence_id = str(r.json().get('id'))
                     text = str(r.json().get('text'))
                     predicted_emoji = str(r.json().get('predicted_emoji'))
@@ -53,7 +54,6 @@ def handle(msg):
                                                               use_aliases=True))
                 elif status == 201:
                     bot.sendMessage(chat_id, "No more sentences for labeling!\nThanks for your support.")
-
         else:
             if not mutex:
                 if less_than_ten_words(text):
@@ -67,41 +67,47 @@ def handle(msg):
                                     bot.sendDocument(me, file, 'Exported data')
                             mutex = False
                         else:
-                            bot.sendMessage(channel_id,
-                                            text="[Profile](tg://user?id=%s) sent '%s'" % (str(chat_id), text),
-                                            parse_mode="Markdown")
-                            mutex = True
-                            t1 = datetime.now()
-
-                            bot.sendMessage(chat_id, "Processing your text...")
-                            r = requests.post(url=URL + 'api/ask', data={'text': text})
-                            if r.ok:
-                                emoji_unicode = r.json().get('emoji')
-                                prob = float(r.json().get('prob'))
-                                sentence_id = str(r.json().get('sentence_id'))
-                                keyboard = like_dislike_keyboard(sentence_id, emoji_unicode)
-
-                                spent_time = (datetime.now() - t1).total_seconds()
-                                bot.sendMessage(chat_id, emoji.emojize(
-                                    "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
-                                        emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
-
-                                bot.sendMessage(channel_id, emoji.emojize(
-                                    "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
-                                        emoji_unicode, prob), use_aliases=True))
-
-                            else:
-                                bot.sendMessage(chat_id, emoji.emojize("I couldn't understand the words... :pensive:",
-                                                                       use_aliases=True))
-                            mutex = False
+                            predict_sentence(chat_id, text)
                     else:
-                        bot.sendMessage(chat_id, "Please don't enter punctuation marks...")
-                        bot.sendMessage(chat_id, "Now, Tell what you think...")
+                        text = text.translate(str.maketrans('', '', string.punctuation))
+                        predict_sentence(chat_id, text)
+                        # bot.sendMessage(chat_id, "Please don't enter punctuation marks...")
+                        # bot.sendMessage(chat_id, "Now, Tell what you think...")
                 else:
                     bot.sendMessage(chat_id, "Please enter shorter sentence...\nless than 10 words...")
             else:
                 bot.sendMessage(chat_id, "I'm processing right now.. \nPlease try again in a few minutes.")
     return
+
+
+def predict_sentence(chat_id, text):
+    bot.sendMessage(channel_id,
+                    text="[Profile](tg://user?id=%s) sent '%s'" % (str(chat_id), text),
+                    parse_mode="Markdown")
+    global mutex
+    mutex = True
+    t1 = datetime.now()
+
+    bot.sendMessage(chat_id, "Processing your text...")
+    r = requests.post(url=URL + 'api/ask', data={'text': text})
+    if r.ok:
+        emoji_unicode = r.json().get('emoji')
+        prob = float(r.json().get('prob'))
+        sentence_id = str(r.json().get('sentence_id'))
+        keyboard = like_dislike_keyboard(sentence_id, emoji_unicode)
+
+        spent_time = (datetime.now() - t1).total_seconds()
+        bot.sendMessage(chat_id, emoji.emojize(
+            "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
+                emoji_unicode, prob), use_aliases=True), reply_markup=keyboard)
+
+        bot.sendMessage(channel_id, emoji.emojize(
+            "Took %d seconds to process...\n" % spent_time + text + " %s with probability %.3f" % (
+                emoji_unicode, prob), use_aliases=True))
+    else:
+        bot.sendMessage(chat_id, emoji.emojize("I couldn't understand the words... :pensive:",
+                                               use_aliases=True))
+    mutex = False
 
 
 def less_than_ten_words(text):

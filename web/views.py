@@ -111,3 +111,10 @@ def export(request):
     data.to_csv('/var/www/EmojifierBot/media/data.csv', index=False, header=True)
 
     return JsonResponse(data={'data': 200})
+
+
+@csrf_exempt
+def load_unassigned_sample(request):
+    unassigned_sentences_sample = Sentence.objects.all().filter(feedback='none')[0]
+
+    return JsonResponse(data={'sentence': list(unassigned_sentences_sample.values)})

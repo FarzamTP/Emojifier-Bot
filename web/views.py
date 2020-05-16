@@ -117,4 +117,4 @@ def export(request):
 def load_unassigned_sample(request):
     unassigned_sentences_sample = Sentence.objects.all().filter(feedback='none')[0]
 
-    return JsonResponse(data={'sentence': list(unassigned_sentences_sample.values)})
+    return JsonResponse(data={'sentence': list(unassigned_sentences_sample.value)})

@@ -30,14 +30,15 @@ def handle(msg):
                             "That's because I'm processing at the moment and will process your sentence in a minute.‌")
             bot.sendMessage(chat_id, "Now, Tell what you think...")
         elif text == '/label_sentence':
-            bot.sendMessage(channel_id, "[Profile](tg://user?id=%s) asked to label unassigned sentences..." % channel_id)
+            bot.sendMessage(chat_id, "Loading sentence...")
+            bot.sendMessage(channel_id, "[Profile](tg://user?id=%s) asked to label unassigned sentences..." % str(chat_id))
             r = requests.get(url=URL + 'api/load_unassigned')
             print(r.ok)
             if r.ok:
-                sentence_id = r.json().get('id')
-                text = r.json().get('text')
-                predicted_emoji = r.json().get('predicted_emoji')
-                prob = r.json().get('prob')
+                sentence_id = str(r.json().get('id'))
+                text = str(r.json().get('text'))
+                predicted_emoji = str(r.json().get('predicted_emoji'))
+                prob = float(r.json().get('prob'))
 
                 keyboard = like_dislike_keyboard(sentence_id, predicted_emoji)
 

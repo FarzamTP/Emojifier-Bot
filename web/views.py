@@ -116,5 +116,5 @@ def export(request):
 
 @csrf_exempt
 def load_unassigned_sample(request):
-    data = Sentence.objects.all().filter(feedback='none').values()[0]
+    data = Sentence.objects.all().filter(feedback='none')[0].values()
     return JsonResponse(data=list(data), safe=False)

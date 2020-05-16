@@ -139,8 +139,7 @@ def on_callback_query(msg):
         if action == "like":
             bot.sendMessage(chat_id, emoji.emojize("Yeah :tada: Thanks for your support. :smile:", use_aliases=True))
 
-            # Posts to channel
-            bot.sendMessage(channel_id, emoji.emojize("Yeah :tada: Thanks for your support. :smile:", use_aliases=True))
+            bot.sendMessage(channel_id, emoji.emojize("Submitted like! :thumbsup:", use_aliases=True))
             submit_impression(action, sentence_id, emoji_unicode)
             bot.sendMessage(chat_id, "Tell me more...")
         elif action == "dislike":

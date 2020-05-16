@@ -116,11 +116,17 @@ def export(request):
 
 @csrf_exempt
 def load_unassigned_sample(request):
-    sentence = Sentence.objects.all().filter(feedback='none')[0]
-    data = {
-        'id': sentence.id,
-        'text': sentence.text,
-        'predicted_emoji': sentence.predicted_emoji,
-        'prob': sentence.prob,
-    }
+    if Sentence.objects.all().filter(feedback='none').exists():
+        sentence = Sentence.objects.all().filter(feedback='none')[0]
+        data = {
+            'status': 200,
+            'id': sentence.id,
+            'text': sentence.text,
+            'predicted_emoji': sentence.predicted_emoji,
+            'prob': sentence.prob,
+        }
+    else:
+        data = {
+            'status': 201
+        }
     return JsonResponse(data=data)

@@ -31,22 +31,29 @@ def handle(msg):
             bot.sendMessage(chat_id, "Now, Tell what you think...")
         elif text == '/label_sentence':
             bot.sendMessage(chat_id, "Loading sentence...")
-            bot.sendMessage(channel_id, "[Profile](tg://user?id=%s) asked to label unassigned sentences..." % str(chat_id))
+            bot.sendMessage(channel_id, "[Profile](tg://user?id=%s) asked to label unassigned sentences..." %
+                            str(chat_id), parse_mode="Markdown")
+
             r = requests.get(url=URL + 'api/load_unassigned')
             print(r.ok)
             if r.ok:
-                sentence_id = str(r.json().get('id'))
-                text = str(r.json().get('text'))
-                predicted_emoji = str(r.json().get('predicted_emoji'))
-                prob = float(r.json().get('prob'))
+                status = r.json().get('status')
+                if status == 200:
+                    sentence_id = str(r.json().get('id'))
+                    text = str(r.json().get('text'))
+                    predicted_emoji = str(r.json().get('predicted_emoji'))
+                    prob = float(r.json().get('prob'))
 
-                keyboard = like_dislike_keyboard(sentence_id, predicted_emoji)
+                    keyboard = like_dislike_keyboard(sentence_id, predicted_emoji)
 
-                bot.sendMessage(chat_id, emoji.emojize(text + " %s with probability %.3f" % (predicted_emoji, prob),
-                                                       use_aliases=True), reply_markup=keyboard)
+                    bot.sendMessage(chat_id, emoji.emojize(text + " %s with probability %.3f" % (predicted_emoji, prob),
+                                                           use_aliases=True), reply_markup=keyboard)
 
-                bot.sendMessage(channel_id, emoji.emojize(text + " %s with probability %.3f" % (predicted_emoji, prob),
-                                                          use_aliases=True), reply_markup=keyboard)
+                    bot.sendMessage(channel_id, emoji.emojize(text + " %s with probability %.3f" % (predicted_emoji, prob),
+                                                              use_aliases=True))
+                elif status == 201:
+                    bot.sendMessage(chat_id, "No more sentences for labeling!\nThanks for your support.")
+
         else:
             if not mutex:
                 if less_than_ten_words(text):

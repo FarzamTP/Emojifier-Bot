@@ -31,6 +31,7 @@ class Sentence(models.Model):
         (rage, ':rage:'),
         (see_no_evil, ':see_no_evil:'),
         (expressionless, ':expressionless:')
+
     )
 
     predicted_emoji = models.CharField(blank=True, choices=emoji_choices, default=none, max_length=32)

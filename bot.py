@@ -24,9 +24,8 @@ def handle(msg):
             bot.sendMessage(chat_id,
                             "Hello!\nI am Emojizer, a newly born sense detector robot!\nI am in my primary "
                             "stages of learning, so it may take a little time for me to respond...\nAs a "
-                            "child, I can not memorize long sentences (more than 10 words), complex words "
-                            "and also punctuation marks...\nPlease don't use them...\n"
-                            "If I didn't start processing immediately: \n\n----> PLEASE DO‌ NOT HESITATE!!! <----\n\n"
+                            "child, I can not memorize long sentences (more than 10 words)\n"
+                            "If I didn't start processing immediately: \n\n====> PLEASE DO‌ NOT HESITATE!!! <====\n\n"
                             "That's because I'm processing at the moment and will process your sentence in a minute.‌")
             bot.sendMessage(chat_id, "Now, Tell what you think...")
         elif text == '/label_sentence':
@@ -71,8 +70,6 @@ def handle(msg):
                     else:
                         text = text.translate(str.maketrans('', '', string.punctuation))
                         predict_sentence(chat_id, text)
-                        # bot.sendMessage(chat_id, "Please don't enter punctuation marks...")
-                        # bot.sendMessage(chat_id, "Now, Tell what you think...")
                 else:
                     bot.sendMessage(chat_id, "Please enter shorter sentence...\nless than 10 words...")
             else:

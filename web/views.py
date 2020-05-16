@@ -1,3 +1,4 @@
+from django.core import serializers
 from django.http import JsonResponse
 import numpy as np
 from django.views.decorators.csrf import csrf_exempt
@@ -116,5 +117,5 @@ def export(request):
 @csrf_exempt
 def load_unassigned_sample(request):
     unassigned_sentences_sample = Sentence.objects.all().filter(feedback='none')[0]
-
-    return JsonResponse(data={'sentence': list(unassigned_sentences_sample.value)})
+    data = serializers.serialize('json', unassigned_sentences_sample)
+    return JsonResponse(data=data)

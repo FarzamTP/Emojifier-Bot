@@ -118,6 +118,7 @@ def export(request):
 def load_unassigned_sample(request):
     sentence = Sentence.objects.all().filter(feedback='none')[0]
     data = {
+        'id': sentence.id,
         'text': sentence.text,
         'predicted_emoji': sentence.predicted_emoji,
         'prob': sentence.prob,

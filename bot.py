@@ -7,11 +7,11 @@ import string
 from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup
 from datetime import datetime
 
-me = 0
-channel_id = 0
+me = 313030525
+channel_id = -1001499881955
 mutex = False
-token = "XXXXXXX-XXXXXXX"
-URL = 'XXX.com'
+token = "1171061388:AAFxZjpuP_3R9iQNZnnN6s74O5ottQcItFs"
+URL = 'https://faraanak.ir/'
 bot = telepot.Bot(token)
 
 
@@ -29,6 +29,23 @@ def handle(msg):
                             "If I didn't start processing immediately: \n\n----> PLEASE DO‌ NOT HESITATE!!! <----\n\n"
                             "That's because I'm processing at the moment and will process your sentence in a minute.‌")
             bot.sendMessage(chat_id, "Now, Tell what you think...")
+        elif text == '/label_sentence':
+            bot.sendMessage(channel_id, "[Profile](tg://user?id=%s) asked to label unassigned sentences..." % channel_id)
+            r = requests.get(url=URL + 'api/load_unassigned')
+            print(r.ok)
+            if r.ok:
+                sentence_id = r.json().get('id')
+                text = r.json().get('text')
+                predicted_emoji = r.json().get('predicted_emoji')
+                prob = r.json().get('prob')
+
+                keyboard = like_dislike_keyboard(sentence_id, predicted_emoji)
+
+                bot.sendMessage(chat_id, emoji.emojize(text + " %s with probability %.3f" % (predicted_emoji, prob),
+                                                       use_aliases=True), reply_markup=keyboard)
+
+                bot.sendMessage(channel_id, emoji.emojize(text + " %s with probability %.3f" % (predicted_emoji, prob),
+                                                          use_aliases=True), reply_markup=keyboard)
         else:
             if not mutex:
                 if less_than_ten_words(text):
